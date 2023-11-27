@@ -81,7 +81,7 @@ public class NewsGUI extends JFrame {
 
     // En el método crearPanelTituloNoticia, para establecer el color inicial
     private JPanel crearPanelTituloNoticia(String noticia) {
-        String titulo = (noticia);
+        String titulo = extraerTituloNoticia(noticia);
 
         JPanel panelTituloNoticia = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelTituloNoticia.setBackground(new Color(222, 222, 216));
@@ -101,10 +101,18 @@ public class NewsGUI extends JFrame {
         });
 
         JLabel labelTituloNoticia = new JLabel(titulo);
+        configurarEstiloLabelTitulo(labelTituloNoticia, noticia);
 
         panelTituloNoticia.add(labelTituloNoticia);
         return panelTituloNoticia;
     }
+
+    private void configurarEstiloLabelTitulo(JLabel labelTituloNoticia, String noticia) {
+        labelTituloNoticia.setForeground(Color.BLACK);
+        labelTituloNoticia.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        labelTituloNoticia.setFont(new Font("Roboto", Font.BOLD, 14));
+    }
+
     ImageIcon getLogo() {
         try {
             ImageIcon originalIcon = new ImageIcon("src/main/img/logo.png");
@@ -114,6 +122,22 @@ public class NewsGUI extends JFrame {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String extraerTituloNoticia(String noticia) {
+        // Se considera título todo lo que está antes del primer punto de la noticia
+        String regex = "^(.*?\\.)";
+        Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE | Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(noticia);
+
+        // Extraer el resultado si hay una coincidencia
+        if (matcher.find()) {
+            return matcher.group(1).trim();
+        }
+
+        // Si no hay coincidencia, devolver toda la primera línea (o toda la noticia si no hay línea)
+        String[] lineas = noticia.split("\n");
+        return lineas.length > 0 ? lineas[0].trim() : noticia.trim();
     }
 
 
