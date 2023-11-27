@@ -46,7 +46,11 @@ public class NewsGUI extends JFrame {
         labelCabecera.setFont(new Font("Roboto", Font.BOLD, 18));
         panelCabecera.add(labelCabecera);
 
-
+        ImageIcon iconoLogo = getLogo();
+        if (iconoLogo != null) {
+            JLabel labelLogo = new JLabel(iconoLogo);
+            panelCabecera.add(labelLogo);
+        }
 
         return panelCabecera;
     }
@@ -100,6 +104,16 @@ public class NewsGUI extends JFrame {
 
         panelTituloNoticia.add(labelTituloNoticia);
         return panelTituloNoticia;
+    }
+    ImageIcon getLogo() {
+        try {
+            ImageIcon originalIcon = new ImageIcon("src/main/img/logo.png");
+            Image resizedImage = originalIcon.getImage().getScaledInstance(130, 35, Image.SCALE_SMOOTH);
+            return new ImageIcon(resizedImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
