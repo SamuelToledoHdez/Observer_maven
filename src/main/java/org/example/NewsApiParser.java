@@ -157,12 +157,12 @@ public class NewsApiParser {
                 new EverythingRequest.Builder()
                         .q(query)
                         .sortBy("publishedAt")
-                        .pageSize(10)
+                        .pageSize(100)
                         .build(),
                 new NewsApiClient.ArticlesResponseCallback() {
                     @Override
                     public void onSuccess(ArticleResponse response) {
-                        System.out.println("Everything Articles:");
+                        System.out.println("Buscando nuevos articulos:");
 
                         // Obtener la lista de artículos y completar el futuro
                         future.complete(response.getArticles());
