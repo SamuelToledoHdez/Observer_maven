@@ -42,7 +42,6 @@ public class SujetoConcreto implements Sujeto {
             observador.update();
         }
     }
-
     public void refrescarEstado() {
         future = newsApiParser.parseEverythingToList(consulta);
         notificarObservadores();
@@ -51,11 +50,23 @@ public class SujetoConcreto implements Sujeto {
     public CompletableFuture<List<Article>> getFuture(){
         return this.future;
     }
+
     public String getConsulta(){
         return this.consulta;
     }
 
+    public void run(){
+        while(true){
+            try {
+                refrescarEstado();
+                Thread.sleep(REFRESH_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    final public static int REFRESH_TIME = 10000;
 }
 
 

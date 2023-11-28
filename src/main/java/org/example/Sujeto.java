@@ -13,5 +13,7 @@ public interface Sujeto {
     void notificarObservadores();
     public CompletableFuture<List<Article>> getFuture();
     public String getConsulta();
+    public void refrescarEstado();
+    public void run();
 }
 

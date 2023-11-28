@@ -18,12 +18,9 @@ public class ObservadorNewsApi implements Observador{
         try {
             ArrayList<Article> noticias = (ArrayList<Article>) sujeto.getFuture().get();
             newsGUI = new NewsGUI(noticias, sujeto.getConsulta());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
     public String toString(){
         return "Observador " + this.name;
