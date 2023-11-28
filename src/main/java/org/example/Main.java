@@ -10,35 +10,12 @@ import java.util.concurrent.ExecutionException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        String apiKey = "895c1b9e570349cc830c4571482d4758";
+        Sujeto sujetoTesla = new SujetoConcreto("tesla");
+        ObservadorNewsApi obs1 = new ObservadorNewsApi(sujetoTesla, "obs1");
+        sujetoTesla.agregarObservador(new ObservadorNewsApi(sujetoTesla, "ob2"));
+        sujetoTesla.agregarObservador(new ObservadorNewsApi(sujetoTesla,"ob3"));
+        sujetoTesla.agregarObservador(obs1);
+        sujetoTesla.quitarObservador(obs1);
 
-        NewsApiParser newsApiParser = new NewsApiParser(apiKey);
-
-        // Obtener noticias de todo ("everything") con la palabra clave "trump"
-        //newsApiParser.parseEverything("trump");
-
-        //System.out.println(newsApiParser.searchNew("tesla", "Amazon Puts Alexa in the Driver’s Seat, Walmart Revs Up Package Delivery").getDescription());
-
-
-
-
-        /*CompletableFuture<Map<String, String>> future = newsApiParser.parseEverythingToMap("trump");
-
-        try {
-            Map<String, String> result = future.get(); // Obtener el resultado del CompletableFuture
-            System.out.println("Mapa de artículos completo:");
-            result.forEach((title, url) -> System.out.println("Título: " + title + ", URL: " + url));
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }*/
-
-        try {
-            List<Article> result = newsApiParser.parseEverythingToList("tesla").get();
-            System.out.println("Lista de artículos completa:");
-            result.forEach(article -> System.out.println("Título: " + article.getTitle() + ", URL: " + article.getUrl()));
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
     }
 }

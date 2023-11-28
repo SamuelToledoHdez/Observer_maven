@@ -8,8 +8,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 
+
 public class SujetoConcreto implements Sujeto {
-    private List<Observer> observadores = new ArrayList<>();
+    private List<Observador> observadores = new ArrayList<>();
     private String consulta;
     NewsApiParser newsApiParser;
     private CompletableFuture<List<Article>> future;
@@ -20,30 +21,41 @@ public class SujetoConcreto implements Sujeto {
         String apiKey = "895c1b9e570349cc830c4571482d4758";
         newsApiParser = new NewsApiParser(apiKey);
         future = newsApiParser.parseEverythingToList(consulta);
+        try {
+            System.out.println(future.get().get(0).getTitle());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
 
     }
 
 
     @Override
-    public void agregarObservador(Observer observador) {
+    public void agregarObservador(Observador observador) {
+        System.out.println("Agregando " + observador + " a la lista de observadores");
         observadores.add(observador);
     }
 
     @Override
-    public void quitarObservador(Observer observador) {
+    public void quitarObservador(Observador observador) {
+        System.out.println("Quitando observador" + observador + " de la lista de observadores");
         observadores.remove(observador);
     }
 
     @Override
     public void notificarObservadores() {
-        for (Observer observador : observadores) {
-            observador.actualizar(estado);
+        for (Observador observador : observadores) {
+            observador.update();
         }
     }
 
     public void refrescarEstado() {
         future = newsApiParser.parseEverythingToList(consulta);
         notificarObservadores();
+    }
+
+    public CompletableFuture<List<Article>> getFuture(){
+        return this.future;
     }
 
 

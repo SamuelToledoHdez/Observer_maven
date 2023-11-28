@@ -1,8 +1,11 @@
 package org.example;
 
+
+import org.example.Observador;
+
 public interface Sujeto {
-    void agregarObservador(Observer observador);
-    void quitarObservador(Observer observador);
+    void agregarObservador(Observador observador);
+    void quitarObservador(Observador observador);
     void notificarObservadores();
 }
 

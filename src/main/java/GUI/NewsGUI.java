@@ -185,3 +185,6 @@ public class NewsGUI extends JFrame {
 
 
 }
+
+
+
