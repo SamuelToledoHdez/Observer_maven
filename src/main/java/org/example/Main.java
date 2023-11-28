@@ -3,6 +3,7 @@ package org.example;
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Article;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -22,12 +23,20 @@ public class Main {
 
 
 
-        CompletableFuture<Map<String, String>> future = newsApiParser.parseEverythingToMap("trump");
+        /*CompletableFuture<Map<String, String>> future = newsApiParser.parseEverythingToMap("trump");
 
         try {
             Map<String, String> result = future.get(); // Obtener el resultado del CompletableFuture
             System.out.println("Mapa de artículos completo:");
             result.forEach((title, url) -> System.out.println("Título: " + title + ", URL: " + url));
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }*/
+
+        try {
+            List<Article> result = newsApiParser.parseEverythingToList("tesla").get();
+            System.out.println("Lista de artículos completa:");
+            result.forEach(article -> System.out.println("Título: " + article.getTitle() + ", URL: " + article.getUrl()));
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
