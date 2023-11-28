@@ -12,6 +12,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class NewsGUI extends JFrame {
+    private JPanel panelPrincipal;
+    JPanel panelCabecera;
+    JLabel labelCabecera;
+    private JPanel panelNoticias;
     public NewsGUI(ArrayList<Article> noticias, String tituloSeccion) {
         // Configurar la ventana
         setTitle("Noticias - " + tituloSeccion);
@@ -20,8 +24,8 @@ public class NewsGUI extends JFrame {
         setIconImage(new ImageIcon("src/main/img/nalogo.png").getImage());
         setResizable(false);
 
-        JPanel panelPrincipal = crearPanelPrincipal(tituloSeccion);
-        JPanel panelNoticias = crearPanelNoticias(noticias);
+        panelPrincipal = crearPanelPrincipal(tituloSeccion);
+        panelNoticias = crearPanelNoticias(noticias);
         panelPrincipal.add(new JScrollPane(panelNoticias), BorderLayout.CENTER);
         panelNoticias.setBackground(new Color(222, 222, 216));
         panelNoticias.setOpaque(true);
@@ -32,8 +36,8 @@ public class NewsGUI extends JFrame {
     }
 
     private JPanel crearPanelPrincipal(String tituloPagina) {
-        JPanel panelCabecera = crearPanelCabecera(tituloPagina);
-        JPanel panelPrincipal = new JPanel(new BorderLayout());
+        panelCabecera = crearPanelCabecera(tituloPagina);
+        panelPrincipal = new JPanel(new BorderLayout());
 
         panelCabecera.setBackground(new Color(222, 222, 216));
         panelCabecera.setOpaque(true);
@@ -44,9 +48,9 @@ public class NewsGUI extends JFrame {
     }
 
     private JPanel crearPanelCabecera(String tituloPagina) {
-        JPanel panelCabecera = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel labelCabecera = new JLabel(tituloPagina);
-        labelCabecera.setFont(new Font("Roboto", Font.BOLD, 18));
+         panelCabecera = new JPanel(new FlowLayout(FlowLayout.CENTER));
+         labelCabecera = new JLabel(tituloPagina);
+         labelCabecera.setFont(new Font("Roboto", Font.BOLD, 18));
         panelCabecera.add(labelCabecera);
 
         ImageIcon iconoLogo = getLogo();
@@ -59,7 +63,7 @@ public class NewsGUI extends JFrame {
     }
 
     private JPanel crearPanelNoticias(ArrayList<Article> noticias) {
-        JPanel panelNoticias = new JPanel();
+        panelNoticias = new JPanel();
         panelNoticias.setLayout(new BoxLayout(panelNoticias, BoxLayout.Y_AXIS));
         for (Article noticia : noticias) {
             JPanel panelTituloNoticia = crearPanelTituloNoticia(noticia);
@@ -113,6 +117,26 @@ public class NewsGUI extends JFrame {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void update(ArrayList<Article> noticias, String tituloSeccion) {
+        for (int i = 0; i < 10; i++) {
+            // Repintamos la aplicación con un retraso de 10 milisegundos
+            revalidate();
+            repaint(10);
+        }
+        panelPrincipal.setVisible(false);
+
+        setTitle("Noticias - " + tituloSeccion);
+        panelPrincipal = crearPanelPrincipal(tituloSeccion);
+        panelNoticias = crearPanelNoticias(noticias);
+        panelPrincipal.add(new JScrollPane(panelNoticias), BorderLayout.CENTER);
+        panelNoticias.setBackground(new Color(222, 222, 216));
+        panelNoticias.setOpaque(true);
+        add(panelPrincipal);
+        setVisible(true);
+
+
     }
 
     private static class NoticiaMouseListener extends MouseAdapter {
