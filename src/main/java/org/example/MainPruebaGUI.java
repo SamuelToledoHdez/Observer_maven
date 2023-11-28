@@ -24,7 +24,7 @@ public class MainPruebaGUI {
           noticias.add("Dólar: cotización de apertura hoy 1 de noviembre en Chile (Infobae, 1° de noviembre de 2022).");
           noticias.add("Noticias deportivas. Tratan sobre sucesos vinculados con los distintos deportes que se practican en una comunidad, por lo general dando prioridad a los más populares. Por ejemplo:");
           String titulo = new String("Actualidad");
-          NewsGUI gui = new NewsGUI(noticias, titulo);
+          //NewsGUI gui = new NewsGUI(noticias, titulo);
     }
 
 

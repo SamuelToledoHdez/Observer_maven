@@ -21,12 +21,6 @@ public class SujetoConcreto implements Sujeto {
         String apiKey = "895c1b9e570349cc830c4571482d4758";
         newsApiParser = new NewsApiParser(apiKey);
         future = newsApiParser.parseEverythingToList(consulta);
-        try {
-            System.out.println(future.get().get(0).getTitle());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
     }
 
 
@@ -56,6 +50,9 @@ public class SujetoConcreto implements Sujeto {
 
     public CompletableFuture<List<Article>> getFuture(){
         return this.future;
+    }
+    public String getConsulta(){
+        return this.consulta;
     }
 
 

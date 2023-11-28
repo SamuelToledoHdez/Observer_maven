@@ -157,7 +157,7 @@ public class NewsApiParser {
                 new EverythingRequest.Builder()
                         .q(query)
                         .sortBy("publishedAt")
-                        .pageSize(10)
+                        .pageSize(100)
                         .build(),
                 new NewsApiClient.ArticlesResponseCallback() {
                     @Override

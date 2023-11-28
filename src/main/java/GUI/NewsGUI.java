@@ -1,23 +1,25 @@
 package GUI;
 
+import com.kwabenaberko.newsapilib.models.Article;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class NewsGUI extends JFrame {
-    public NewsGUI(ArrayList<String> noticias, String tituloPagina) {
+    public NewsGUI(ArrayList<Article> noticias, String tituloSeccion) {
         // Configurar la ventana
-        setTitle("Noticias - " + tituloPagina);
+        setTitle("Noticias - " + tituloSeccion);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 450);
         setIconImage(new ImageIcon("src/main/img/nalogo.png").getImage());
         setResizable(false);
 
-        JPanel panelPrincipal = crearPanelPrincipal(tituloPagina);
+        JPanel panelPrincipal = crearPanelPrincipal(tituloSeccion);
         JPanel panelNoticias = crearPanelNoticias(noticias);
         panelPrincipal.add(new JScrollPane(panelNoticias), BorderLayout.CENTER);
         panelNoticias.setBackground(new Color(222, 222, 216));
@@ -55,10 +57,10 @@ public class NewsGUI extends JFrame {
         return panelCabecera;
     }
 
-    private JPanel crearPanelNoticias(ArrayList<String> noticias) {
+    private JPanel crearPanelNoticias(ArrayList<Article> noticias) {
         JPanel panelNoticias = new JPanel();
         panelNoticias.setLayout(new BoxLayout(panelNoticias, BoxLayout.Y_AXIS));
-        for (String noticia : noticias) {
+        for (Article noticia : noticias) {
             JPanel panelTituloNoticia = crearPanelTituloNoticia(noticia);
             panelNoticias.add(panelTituloNoticia);
             panelNoticias.add(Box.createRigidArea(new Dimension(5, 10)));
@@ -66,8 +68,8 @@ public class NewsGUI extends JFrame {
         return panelNoticias;
     }
 
-    private JPanel crearPanelTituloNoticia(String noticia) {
-        String titulo = extraerTituloNoticia(noticia);
+    private JPanel crearPanelTituloNoticia(Article noticia) {
+        String titulo = noticia.getTitle();
 
         JPanel panelTituloNoticia = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelTituloNoticia.setBackground(new Color(222, 222, 216));
@@ -95,7 +97,7 @@ public class NewsGUI extends JFrame {
         return panelTituloNoticia;
     }
 
-    private void configurarEstiloLabelTitulo(JLabel labelTituloNoticia, String noticia) {
+    private void configurarEstiloLabelTitulo(JLabel labelTituloNoticia, Article noticia) {
         labelTituloNoticia.setForeground(Color.BLACK);
         labelTituloNoticia.setCursor(new Cursor(Cursor.HAND_CURSOR));
         labelTituloNoticia.setFont(new Font("Roboto", Font.BOLD, 14));
@@ -112,29 +114,19 @@ public class NewsGUI extends JFrame {
         return null;
     }
 
-    private String extraerTituloNoticia(String noticia) {
-        // Se considera título todo lo que está antes del primer punto de la noticia
-        String regex = "^(.*?\\.)";
-        Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE | Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(noticia);
-
-        // Extraer el resultado si hay una coincidencia
-        if (matcher.find()) {
-            return matcher.group(1).trim();
-        }
-
-        // Si no hay coincidencia, devolver toda la primera línea (o toda la noticia si no hay línea)
-        String[] lineas = noticia.split("\n");
-        return lineas.length > 0 ? lineas[0].trim() : noticia.trim();
-    }
-
     private static class NoticiaMouseListener extends MouseAdapter {
-        final private String noticia;
+        final private Article noticia;
         final private String tituloNoticia;
+        final private URL urlNoticia;
 
-        public NoticiaMouseListener(String noticia, String tituloNoticia) {
+        public NoticiaMouseListener(Article noticia, String tituloNoticia) {
             this.noticia = noticia;
             this.tituloNoticia = tituloNoticia;
+            try {
+                this.urlNoticia = new URL(noticia.getUrl());
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override
@@ -157,7 +149,7 @@ public class NewsGUI extends JFrame {
             labelTituloNoticia.setPreferredSize(new Dimension(400, labelTituloNoticia.getPreferredSize().height)); // Limitar el ancho
             panelPrincipal.add(labelTituloNoticia, BorderLayout.NORTH);
 
-            JTextArea textoNoticia = new JTextArea(noticia);
+            JTextArea textoNoticia = new JTextArea(noticia.getDescription());
             textoNoticia.setLineWrap(true);
             textoNoticia.setWrapStyleWord(true);
             textoNoticia.setEditable(false);
@@ -175,6 +167,19 @@ public class NewsGUI extends JFrame {
                     BorderFactory.createLineBorder(new Color(149, 148, 138), 2), // Borde resaltado
                     BorderFactory.createEmptyBorder(10, 10, 10, 10) // Margen interno
             ));
+            JLabel urlLabel = new JLabel("<html><div style='width: 400px; text-align: center;'><a href='" + urlNoticia + "'>Ver noticia completa</a></div></html>");
+            urlLabel.setFont(new Font("Roboto", Font.PLAIN, 14));
+            urlLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        Desktop.getDesktop().browse(urlNoticia.toURI());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            panelPrincipal.add(urlLabel, BorderLayout.SOUTH);
 
             // Agregar el panel principal a la ventana de la noticia
             ventanaNoticia.add(panelPrincipal);
