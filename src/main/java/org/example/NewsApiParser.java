@@ -149,6 +149,35 @@ public class NewsApiParser {
         // Devolver el CompletableFuture que se completará en el futuro
         return future;
     }
+
+    public CompletableFuture<List<Article>> parseEverythingToList(String query) {
+        CompletableFuture<List<Article>> future = new CompletableFuture<>();
+
+        newsApiClient.getEverything(
+                new EverythingRequest.Builder()
+                        .q(query)
+                        .build(),
+                new NewsApiClient.ArticlesResponseCallback() {
+                    @Override
+                    public void onSuccess(ArticleResponse response) {
+                        System.out.println("Everything Articles:");
+
+                        // Obtener la lista de artículos y completar el futuro
+                        future.complete(response.getArticles());
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        System.out.println("Error fetching everything articles: " + throwable.getMessage());
+                        // Completar el futuro con un error
+                        future.completeExceptionally(throwable);
+                    }
+                }
+        );
+
+        // Devolver el CompletableFuture que se completará en el futuro
+        return future;
+    }
 }
 
 
