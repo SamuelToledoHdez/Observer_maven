@@ -10,12 +10,15 @@ import java.util.concurrent.ExecutionException;
 
 public class Main {
     public static void main(String[] args) {
-        Sujeto sujetoTesla = new SujetoConcreto("tesla");
+        SujetoConcreto sujetoTesla = new SujetoConcreto("tesla");
         ObservadorNewsApi obs1 = new ObservadorNewsApi(sujetoTesla, "obs1");
         sujetoTesla.agregarObservador(new ObservadorNewsApi(sujetoTesla, "ob2"));
         sujetoTesla.agregarObservador(new ObservadorNewsApi(sujetoTesla,"ob3"));
         sujetoTesla.agregarObservador(obs1);
         sujetoTesla.quitarObservador(obs1);
+        sujetoTesla.refrescarEstado();
+
+
 
     }
 }
