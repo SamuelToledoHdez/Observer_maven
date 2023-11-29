@@ -163,21 +163,15 @@ public class NewsApiParser {
                     @Override
                     public void onSuccess(ArticleResponse response) {
                         System.out.println("Buscando nuevos articulos ...");
-
-                        // Obtener la lista de artículos y completar el futuro
                         future.complete(response.getArticles());
                     }
-
                     @Override
                     public void onFailure(Throwable throwable) {
                         System.out.println("Error fetching everything articles: " + throwable.getMessage());
-                        // Completar el futuro con un error
                         future.completeExceptionally(throwable);
                     }
                 }
         );
-
-        // Devolver el CompletableFuture que se completará en el futuro
         return future;
     }
 }

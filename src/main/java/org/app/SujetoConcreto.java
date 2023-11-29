@@ -2,25 +2,36 @@ package org.app;
 
 import com.kwabenaberko.newsapilib.models.Article;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-
 public class SujetoConcreto implements Sujeto {
     private List<Observador> observadores = new ArrayList<>();
     private String consulta;
-    NewsApiParser newsApiParser;
+    private NewsApiParser newsApiParser;
     private CompletableFuture<List<Article>> future;
+    private Timer timer;
 
-
-    public SujetoConcreto(String consulta){
+    public SujetoConcreto(String consulta) {
         this.consulta = consulta;
         String apiKey = "895c1b9e570349cc830c4571482d4758";
         newsApiParser = new NewsApiParser(apiKey);
         future = newsApiParser.parseEverythingToList(consulta);
     }
 
+    public void run() {
+        timer = new Timer(REFRESH_TIME, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backGroundRefresh();
+            }
+        });
+        timer.start();
+    }
 
     @Override
     public void agregarObservador(Observador observador) {
@@ -30,7 +41,7 @@ public class SujetoConcreto implements Sujeto {
 
     @Override
     public void quitarObservador(Observador observador) {
-        System.out.println("Quitando observador" + observador + " de la lista de observadores");
+        System.out.println("Quitando observador " + observador + " de la lista de observadores");
         observadores.remove(observador);
     }
 
@@ -46,27 +57,37 @@ public class SujetoConcreto implements Sujeto {
         notificarObservadores();
     }
 
-    public CompletableFuture<List<Article>> getFuture(){
+    public CompletableFuture<List<Article>> getFuture() {
         return this.future;
     }
 
-    public String getConsulta(){
+    public String getConsulta() {
         return this.consulta;
     }
 
-    public void run(){
-        while(true){
-            try {
+    public void start() {
+        timer.start(); // Iniciar el Timer
+    }
+
+    public void stop() {
+        timer.stop(); // Detener el Timer
+    }
+
+    protected void backGroundRefresh() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
                 refrescarEstado();
-                Thread.sleep(REFRESH_TIME);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                return null;
             }
-        }
+
+            @Override
+            protected void done() {
+                // Puedes realizar acciones después de que la tarea en segundo plano haya finalizado, si es necesario
+            }
+        };
+        worker.execute();
     }
 
     final public static int REFRESH_TIME = 10000;
 }
-
-
-
