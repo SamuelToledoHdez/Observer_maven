@@ -162,7 +162,7 @@ public class NewsApiParser {
                 new NewsApiClient.ArticlesResponseCallback() {
                     @Override
                     public void onSuccess(ArticleResponse response) {
-                        System.out.println("Buscando nuevos articulos:");
+                        System.out.println("Buscando nuevos articulos ...");
 
                         // Obtener la lista de artículos y completar el futuro
                         future.complete(response.getArticles());

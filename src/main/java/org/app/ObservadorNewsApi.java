@@ -10,7 +10,7 @@ public class ObservadorNewsApi implements Observador{
     String name;
     NewsGUI newsGUI;
     ArrayList<Article> noticias;
-    ObservadorNewsApi(Sujeto sujeto, String name) {
+    public ObservadorNewsApi(Sujeto sujeto, String name) {
         this.sujeto = sujeto;
         this.name = name;
         try {

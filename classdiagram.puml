@@ -1,0 +1,75 @@
+@startuml
+class GUI.NewsGUI {
+- JPanel panelPrincipal
+~ JPanel panelCabecera
+~ JLabel labelCabecera
+- JPanel panelNoticias
+- JPanel crearPanelPrincipal(String)
+- JPanel crearPanelCabecera(String)
+- JPanel crearPanelNoticias(ArrayList<Article>)
+- JPanel crearPanelTituloNoticia(Article)
+- void configurarEstiloLabelTitulo(JLabel,Article)
+~ ImageIcon getLogo()
++ void update(ArrayList<Article>,String)
+}
+class GUI.NewsGUI$NoticiaMouseListener {
+- Article noticia
+- String tituloNoticia
+- URL urlNoticia
++ void mouseClicked(MouseEvent)
+}
+class org.app.ArticleUtils {
++ {static} Article findByTitle(List<Article>,String)
+}
+class org.app.SujetoConcreto {
+- List<Observador> observadores
+- String consulta
+~ NewsApiParser newsApiParser
+- CompletableFuture<List<Article>> future
++ {static} int REFRESH_TIME
++ void agregarObservador(Observador)
++ void quitarObservador(Observador)
++ void notificarObservadores()
++ void refrescarEstado()
++ CompletableFuture<List<Article>> getFuture()
++ String getConsulta()
++ void run()
+}
+class org.app.ObservadorNewsApi {
+~ Sujeto sujeto
+~ String name
+~ NewsGUI newsGUI
+~ ArrayList<Article> noticias
++ void update()
++ String toString()
+}
+interface org.app.Sujeto {
+~ void agregarObservador(Observador)
+~ void quitarObservador(Observador)
+~ void notificarObservadores()
++ CompletableFuture<List<Article>> getFuture()
++ String getConsulta()
++ void refrescarEstado()
++ void run()
+}
+interface org.app.Observador {
+~ String toString()
+~ void update()
+}
+class org.app.NewsApiParser {
+- NewsApiClient newsApiClient
++ void parseEverything(String)
++ void parseTopHeadlines(String,String)
++ void parseSources(String,String)
++ Article searchNew(String,String)
++ CompletableFuture<Map<String,String>> parseEverythingToMap(String)
++ CompletableFuture<List<Article>> parseEverythingToList(String)
+}
+
+
+GUI.JFrame <|-- GUI.NewsGUI
+GUI.NewsGUI +.. GUI.NewsGUI$NoticiaMouseListener
+GUI.MouseAdapter <|-- GUI.NewsGUI$NoticiaMouseListener
+org.app.Sujeto <|.. org.app.SujetoConcreto
+org.app.Observador <|.. org.app.ObservadorNewsApi
+@enduml
