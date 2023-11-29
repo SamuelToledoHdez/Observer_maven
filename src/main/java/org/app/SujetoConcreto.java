@@ -65,14 +65,6 @@ public class SujetoConcreto implements Sujeto {
         return this.consulta;
     }
 
-    public void start() {
-        timer.start(); // Iniciar el Timer
-    }
-
-    public void stop() {
-        timer.stop(); // Detener el Timer
-    }
-
     protected void backGroundRefresh() {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
