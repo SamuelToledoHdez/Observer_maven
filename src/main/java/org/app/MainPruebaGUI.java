@@ -1,6 +1,4 @@
-package org.example;
-
-import GUI.NewsGUI;
+package org.app;
 
 import java.util.ArrayList;
 

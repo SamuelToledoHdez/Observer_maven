@@ -1,12 +1,10 @@
-package org.example;
+package org.app;
 
 import com.kwabenaberko.newsapilib.models.Article;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
 
 
 public class SujetoConcreto implements Sujeto {
@@ -42,6 +40,7 @@ public class SujetoConcreto implements Sujeto {
             observador.update();
         }
     }
+
     public void refrescarEstado() {
         future = newsApiParser.parseEverythingToList(consulta);
         notificarObservadores();

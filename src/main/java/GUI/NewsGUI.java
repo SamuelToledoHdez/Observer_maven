@@ -1,7 +1,6 @@
 package GUI;
 
 import com.kwabenaberko.newsapilib.models.Article;
-import org.example.SujetoConcreto;
 
 import javax.swing.*;
 import java.awt.*;

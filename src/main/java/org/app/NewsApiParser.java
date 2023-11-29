@@ -1,4 +1,4 @@
-package org.example;
+package org.app;
 
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Article;

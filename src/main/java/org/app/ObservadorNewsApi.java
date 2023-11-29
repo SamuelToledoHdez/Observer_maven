@@ -1,13 +1,9 @@
-package org.example;
+package org.app;
 
 import GUI.NewsGUI;
 import com.kwabenaberko.newsapilib.models.Article;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ExecutionException;
 
 public class ObservadorNewsApi implements Observador{
     Sujeto sujeto;
@@ -28,7 +24,6 @@ public class ObservadorNewsApi implements Observador{
         try {
            noticias = (ArrayList<Article>) sujeto.getFuture().get();
            newsGUI.update(noticias, sujeto.getConsulta());
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,8 +1,7 @@
-package org.example;
+package org.app;
 
 
 import com.kwabenaberko.newsapilib.models.Article;
-import org.example.Observador;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
