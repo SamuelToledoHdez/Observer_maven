@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class SujetoConcreto implements Sujeto {
+    public List<Observador> getObservadores() {
+        return observadores;
+    }
+
     private List<Observador> observadores = new ArrayList<>();
     private String consulta;
     private NewsApiParser newsApiParser;

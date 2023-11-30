@@ -14,5 +14,6 @@ public interface Sujeto {
     public String getConsulta();
     public void refrescarEstado();
     public void run();
+    public List<Observador> getObservadores() ;
 }
 

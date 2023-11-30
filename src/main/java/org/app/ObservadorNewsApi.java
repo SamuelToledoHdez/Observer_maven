@@ -7,6 +7,11 @@ import java.util.ArrayList;
 
 public class ObservadorNewsApi implements Observador{
     Sujeto sujeto;
+
+    public String getName() {
+        return name;
+    }
+
     String name;
     NewsGUI newsGUI;
     ArrayList<Article> noticias;

@@ -1,5 +1,6 @@
 package GUI;
 
+import org.app.Observador;
 import org.app.ObservadorNewsApi;
 import org.app.Sujeto;
 import org.app.SujetoConcreto;
@@ -13,6 +14,8 @@ public class UsuarioGUI extends JFrame {
 
     private Sujeto sujeto;
     private String categoriaSeleccionada;
+
+    private Observador observador;
 
     public UsuarioGUI() {
 
@@ -80,9 +83,10 @@ public class UsuarioGUI extends JFrame {
             if (categoriaSeleccionada != null) {
                 // Agregar el observador correspondiente al sujeto
                 Sujeto sujetoConcreto = new SujetoConcreto(categoriaSeleccionada);
-                sujetoConcreto.agregarObservador(new ObservadorNewsApi(sujetoConcreto, "Usuario"));
+                sujetoConcreto.run();
 
                 dispose();
+                new AgregarUsuarioGUI(sujetoConcreto);
             } else {
                 JOptionPane.showMessageDialog(UsuarioGUI.this, "Por favor, selecciona una categoría antes de confirmar.");
             }
