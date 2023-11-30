@@ -80,7 +80,7 @@ public class UsuarioGUI extends JFrame {
             if (categoriaSeleccionada != null) {
                 // Agregar el observador correspondiente al sujeto
                 Sujeto sujetoConcreto = new SujetoConcreto(categoriaSeleccionada);
-                sujetoConcreto.agregarObservador(new ObservadorNewsApi(sujetoConcreto, "NombreDeUsuario"));
+                sujetoConcreto.agregarObservador(new ObservadorNewsApi(sujetoConcreto, "Usuario"));
 
                 dispose();
             } else {
