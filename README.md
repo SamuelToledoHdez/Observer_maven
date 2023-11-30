@@ -1,4 +1,4 @@
-**Aplicación de Noticias de Actualidad y Tecnología**
+**Aplicación de Noticias del mundo**
 
 ---
 
