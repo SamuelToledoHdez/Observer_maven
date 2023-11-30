@@ -16,6 +16,7 @@ public class SujetoConcreto implements Sujeto {
     private CompletableFuture<List<Article>> future;
     private Timer timer;
 
+
     public SujetoConcreto(String consulta) {
         this.consulta = consulta;
         String apiKey = "895c1b9e570349cc830c4571482d4758";
